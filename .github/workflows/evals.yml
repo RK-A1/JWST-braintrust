@@ -1,0 +1,87 @@
+# Run the eval suite on every pull request and block regressions.
+#
+# Two jobs, deliberately:
+#
+#   unit  — scorer tests. No API keys, no cost, runs on every push. If a scorer
+#           is wrong, every experiment built on it is wrong in a way that looks
+#           like a real result, so these gate first.
+#
+#   eval  — the actual agent evaluation. Costs money and needs secrets, so it
+#           runs only after the unit job passes, and only on a subset for PRs.
+#
+# Pull requests get a smoke run (EVAL_LIMIT cases, 1 trial). The full suite runs
+# on merge to main, and that result is the baseline the next PR is compared to.
+
+name: evals
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  unit:
+    name: scorer tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Scorer unit tests
+        run: npx tsx --test evals/scorers.test.ts
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Golden set is up to date with the corpus
+        # Regenerating must be a no-op. If it is not, someone changed the corpus
+        # or the builder without refreshing the fixtures, and every experiment
+        # after this point would be graded against stale ground truth.
+        run: |
+          npx tsx evals/build_golden.ts
+          git diff --exit-code data/golden.json \
+            || (echo "::error::data/golden.json is stale — run 'npx tsx evals/build_golden.ts' and commit" && exit 1)
+
+  eval:
+    name: agent eval
+    needs: unit
+    runs-on: ubuntu-latest
+    # Skip on forks, where secrets are unavailable and the job can only fail.
+    if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Called directly rather than through braintrustdata/eval-action, because
+      # the action shells out to `bt eval`, which does not run custom reporters
+      # and exits 0 whatever the scores are. The gate in evals/reporter.ts is
+      # the point of this job, so the CLI that actually honours it wins over the
+      # nicer PR comment the action would post.
+      - name: Run evals and enforce the quality gate
+        run: npx braintrust eval evals/ --no-progress-bars
+        env:
+          BRAINTRUST_API_KEY: ${{ secrets.BRAINTRUST_API_KEY }}
+          BRAINTRUST_GATEWAY_URL: https://gateway.braintrust.dev/v1
+          BRAINTRUST_PROJECT: JWST Research Agent
+          AGENT_MODEL: claude-haiku-4-5
+          JUDGE_MODEL: claude-haiku-4-5
+          PROMPT_VERSIONS: v1-grounded
+          EVAL_LIMIT: ${{ github.event_name == 'pull_request' && '12' || '' }}
+          TRIAL_COUNT: ${{ github.event_name == 'pull_request' && '1' || '3' }}
