@@ -1,0 +1,20 @@
+[project]
+name = "jwst-braintrust"
+version = "1.0.0"
+description = "An eval-driven JWST research agent instrumented with Braintrust."
+requires-python = ">=3.10"
+
+# Python is an appendix here (python/eval_appendix.py) plus the one-off corpus
+# builder. The agent and the eval suite are TypeScript and need none of this.
+dependencies = [
+    "braintrust>=0.35",
+    "autoevals>=0.3",
+]
+
+[project.optional-dependencies]
+# Only needed to regenerate data/corpus.json from the private source database.
+build = ["duckdb>=1.2"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

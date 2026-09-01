@@ -1,0 +1,23 @@
+{
+  "name": "jwst-braintrust",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An eval-driven JWST research agent instrumented with Braintrust.",
+  "type": "module",
+  "scripts": {
+    "agent": "tsx src/cli.ts",
+    "eval": "braintrust eval evals/",
+    "eval:ci": "braintrust eval evals/ --no-progress-bars",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "autoevals": "^0.3.0",
+    "braintrust": "^3.27.0",
+    "openai": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

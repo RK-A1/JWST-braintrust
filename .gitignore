@@ -1,0 +1,22 @@
+# Secrets
+.env
+.env.braintrust
+
+# Node
+node_modules/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Braintrust local state
+.braintrust/
+
+# OS
+.DS_Store
