@@ -1,0 +1,39 @@
+{
+  "$comment": [
+    "The quality contract for the agent, as a reviewable file.",
+    "",
+    "'floor' is an absolute minimum the scorer must clear on every run.",
+    "'maxRegression' is how far a scorer may fall against the base experiment,",
+    "as an absolute drop in the 0-1 score.",
+    "",
+    "Measured baseline (v1-grounded, claude-haiku-4-5, 35 cases x 3 trials):",
+    "  answer_quality 55.0%  citation_grounding 100%  tool_selection 100%",
+    "  trajectory_efficiency 93.8%  count_accuracy 100%",
+    "",
+    "Two scorers deliberately have NO floor, for the same reason:",
+    "",
+    "  answer_quality is an LLM judge. autoevals' Factuality scores a correct",
+    "  answer that says MORE than the reference as a 'superset' worth 0.6, and",
+    "  the reference answers here are terse. So its absolute level mostly",
+    "  encodes rubric and reference style, not agent quality — 55% is a",
+    "  verbose-but-correct agent, not a failing one. The number is meaningful",
+    "  as a delta between runs that share a rubric, so it is gated on",
+    "  regression only. The first floor here was 0.6, guessed before any run;",
+    "  measuring showed it was testing the fixture rather than the agent.",
+    "",
+    "  trajectory_efficiency rewards fewer tool calls. A floor would push",
+    "  toward exactly the behaviour citation_grounding and tool_selection",
+    "  exist to prevent.",
+    "",
+    "The deterministic scorers keep tight floors, because for those an",
+    "absolute number does mean something: an ID nobody looked up is wrong at",
+    "any threshold."
+  ],
+  "gates": {
+    "answer_quality": { "maxRegression": 0.05 },
+    "citation_grounding": { "floor": 0.9, "maxRegression": 0.02 },
+    "tool_selection": { "floor": 0.8, "maxRegression": 0.05 },
+    "count_accuracy": { "floor": 0.9, "maxRegression": 0.05 },
+    "trajectory_efficiency": { "maxRegression": 0.15 }
+  }
+}
