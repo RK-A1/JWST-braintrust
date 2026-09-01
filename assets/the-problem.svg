@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" width="920" height="430" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="920" height="430" fill="#ffffff"/>
+
+  <text x="460" y="36" text-anchor="middle" font-size="21" font-weight="700" fill="#0f172a">
+    The same change, read two ways.
+  </text>
+  <text x="460" y="60" text-anchor="middle" font-size="13.5" fill="#64748b">
+    A prompt edit asking the agent to be faster and more concise. 44 questions, 3 runs each.
+  </text>
+
+  <!-- ── Left: the summary ─────────────────────────────────────── -->
+  <rect x="30" y="86" width="410" height="252" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="30" y="86" width="410" height="32" rx="10" fill="#dcfce7"/>
+  <rect x="30" y="108" width="410" height="10" fill="#dcfce7"/>
+  <text x="50" y="108" font-size="13.5" font-weight="700" fill="#166534">What the summary says</text>
+
+  <text x="50" y="146" font-size="13" fill="#475569">Speed</text>
+  <text x="420" y="146" text-anchor="end" font-size="13.5" font-weight="600" fill="#166534">+5.4 points</text>
+
+  <text x="50" y="176" font-size="13" fill="#475569">Answer quality</text>
+  <text x="420" y="176" text-anchor="end" font-size="13.5" font-weight="600" fill="#b45309">&#8722;2.9 points</text>
+
+  <line x1="50" y1="196" x2="420" y2="196" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="50" y="224" font-size="13" fill="#475569">Agreed limit on a quality drop</text>
+  <text x="420" y="224" text-anchor="end" font-size="13.5" fill="#0f172a">5 points</text>
+
+  <rect x="50" y="248" width="370" height="34" rx="6" fill="#dcfce7"/>
+  <text x="235" y="270" text-anchor="middle" font-size="13.5" font-weight="600" fill="#166534">
+    Inside budget &#8212; ships
+  </text>
+
+  <text x="50" y="308" font-size="12.5" fill="#64748b">Faster, a little worse. Looks like a fair trade.</text>
+
+  <!-- ── Right: the slice ──────────────────────────────────────── -->
+  <rect x="480" y="86" width="410" height="252" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="480" y="86" width="410" height="32" rx="10" fill="#fee2e2"/>
+  <rect x="480" y="108" width="410" height="10" fill="#fee2e2"/>
+  <text x="500" y="108" font-size="13.5" font-weight="700" fill="#991b1b">What the same data says by question type</text>
+
+  <text x="500" y="146" font-size="13" fill="#475569">Look up one photo</text>
+  <text x="870" y="146" text-anchor="end" font-size="13.5" font-weight="700" fill="#dc2626">&#8722;10.5 points</text>
+
+  <text x="500" y="176" font-size="13" fill="#475569">Find and cite the right photo</text>
+  <text x="870" y="176" text-anchor="end" font-size="13.5" font-weight="700" fill="#dc2626">&#8722;7.1 points</text>
+
+  <text x="500" y="206" font-size="13" fill="#475569">Tell near-identical photos apart</text>
+  <text x="870" y="206" text-anchor="end" font-size="13.5" font-weight="600" fill="#166534">+8.1 speed</text>
+
+  <line x1="500" y1="226" x2="870" y2="226" stroke="#e2e8f0" stroke-width="1"/>
+
+  <rect x="500" y="248" width="370" height="34" rx="6" fill="#fee2e2"/>
+  <text x="685" y="270" text-anchor="middle" font-size="13.5" font-weight="600" fill="#991b1b">
+    The loss is concentrated, not spread
+  </text>
+
+  <text x="500" y="308" font-size="12.5" fill="#64748b">One kind of question got twice as much worse.</text>
+
+  <!-- ── Bottom ────────────────────────────────────────────────── -->
+  <rect x="30" y="364" width="860" height="42" rx="8" fill="#0f172a"/>
+  <text x="460" y="391" text-anchor="middle" font-size="14.5" fill="#f8fafc">
+    An average is one number. The decision needs the other three.
+  </text>
+</svg>
